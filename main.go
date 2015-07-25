@@ -3,8 +3,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/website-golang/database"
 )
 
 func main() {
-	fmt.Println("Hello World!")
+	var user1 database.User
 }
