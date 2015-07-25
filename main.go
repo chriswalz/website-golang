@@ -2,10 +2,13 @@
 package main
 
 import (
-	"fmt"
-	"github.com/website-golang/database"
+	"github.com/website-golang/data"
 )
 
 func main() {
-	var user1 database.User
+	//var user1 database.User
+	user1 := data.CreateRandomUser() // return a *user
+	user1.PrintUser()
+	user2 := data.CreateRandomUser() // return a *user
+	user2.PrintUser()
 }
