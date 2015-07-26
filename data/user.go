@@ -1,10 +1,11 @@
 package data
 
 import (
-	"code.google.com/p/go-uuid/uuid"
 	"fmt"
 	"math/rand"
 	"time"
+
+	"code.google.com/p/go-uuid/uuid"
 )
 
 type User struct {
@@ -13,11 +14,11 @@ type User struct {
 	DateCreated                                            time.Time
 }
 
-func (user User) PrintUser() {
-	fmt.Println("Name:", user.Name, "Email:", user.Email, "Date Created:", user.DateCreated)
+func (user User) String() string {
+	return fmt.Sprintln("Name:", user.Uuid, "Email:", user.Email, "Date Created:", user.DateCreated)
 }
 
-func CreateRandomUser(parentId string) User {
+func CreateRandomUser(d *Dataholder, parentId string) string {
 	rand.Seed(5)
 	user := User{}
 	user.Uuid = uuid.New()
@@ -26,10 +27,11 @@ func CreateRandomUser(parentId string) User {
 	user.Email = randSeq(rand.Intn(7) + 8)
 	user.DateCreated = time.Now()
 	// group can either be "student" or "teacher"
-	return user
+	d.AddUser(user)
+	return user.Uuid
 }
-func (user User) AddRandomClassroomList() {
+func (user User) AddRandomClassroomList(d *Dataholder) {
 	for i := 0; i < 2; i++ {
-		user.Classrooms = append(user.Classrooms, CreateRandomClassroom(user.Uuid))
+		user.Classrooms = append(user.Classrooms, CreateRandomClassroom(d, user.Uuid))
 	}
 }

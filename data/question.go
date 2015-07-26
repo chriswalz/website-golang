@@ -17,12 +17,13 @@ func (q Question) PrintQuestion() { // Question name is the actual question
 	fmt.Println("Name:", q.Name, "Date Created:", q.DateCreated)
 }
 
-func CreateRandomQuestion(parentId string) Question { // parent should be a classsroom
+func CreateRandomQuestion(d *Dataholder, parentId string) string { // parent should be a classsroom
 	rand.Seed(6)
 	q := Question{}
 	q.ParentId = parentId
 	q.Uuid = uuid.New()
 	q.Name = randSeq(rand.Intn(5)+3) + "?"
 	q.DateCreated = time.Now()
-	return q
+	d.AddQuestion(q)
+	return q.Uuid
 }

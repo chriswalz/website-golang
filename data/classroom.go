@@ -18,7 +18,7 @@ func (c Classroom) PrintClassRoom() {
 	fmt.Println("Name:", c.Name, "Date Created:", c.DateCreated)
 }
 
-func CreateRandomClassroom(parentId string) Classroom {
+func CreateRandomClassroom(d *Dataholder, parentId string) string {
 	rand.Seed(6)
 	c := Classroom{}
 	c.ParentId = parentId
@@ -26,5 +26,11 @@ func CreateRandomClassroom(parentId string) Classroom {
 	c.Uuid = uuid.New()
 	c.Name = randSeq(rand.Intn(5) + 6)
 	c.DateCreated = time.Now()
-	return c
+	d.AddClassroom(c)
+	return c.Uuid
+}
+func (c Classroom) AddRandomQuestionList(d *Dataholder) {
+	for i := 0; i < 2; i++ {
+		c.Questions = append(c.Questions, CreateRandomQuestion(d, c.Uuid))
+	}
 }

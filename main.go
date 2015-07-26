@@ -1,14 +1,32 @@
 // main.go
 package main
 
+/*
+Notes:
+Create___ may need to return two values: UUID and struct
+Add all createRandomList methods
+Create tests, initialize a database
+Implement post, get, put actions
+Connect RestApi
+*/
+
 import (
+	"fmt"
+	"time"
+
 	"github.com/website-golang/data"
 )
 
 func main() {
-	//var user1 database.User
-	user1 := data.CreateRandomUser() // return a *user
-	user1.PrintUser()
-	user2 := data.CreateRandomUser() // return a *user
-	user2.PrintUser()
+	defer timeTrack(time.Now())
+	var d = data.CreateRandomDatabase()
+	d.PrintDataHolder()
+	//fmt.Println("Users:", d.Users)
+	//fmt.Println("Classrooms:", d.Classrooms)
+	fmt.Println("Questions length:", len(d.Questions))
+
+}
+
+func timeTrack(t time.Time) {
+	fmt.Println(time.Since(t))
 }

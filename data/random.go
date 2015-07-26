@@ -13,7 +13,3 @@ func randSeq(n int) string {
 	}
 	return string(b)
 }
-
-func CreateRandomDatabase() {
-
-}
