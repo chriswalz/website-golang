@@ -1,10 +1,11 @@
 package data
 
 import (
-	"code.google.com/p/go-uuid/uuid"
 	"fmt"
 	"math/rand"
 	"time"
+
+	"code.google.com/p/go-uuid/uuid"
 )
 
 type Classroom struct {

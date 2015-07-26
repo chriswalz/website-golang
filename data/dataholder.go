@@ -37,19 +37,40 @@ func createRandomDataHolder() *Dataholder {
 	return &d
 }
 func (d *Dataholder) AddRandomUserList() {
-	for i := 0; i < 100000; i++ {
-		go CreateRandomUser(d, d.Uuid)
+	defer TimeTrack(time.Now(), "Users")
+	userc := make(chan int)
+
+	for i := 0; i < 30000; i++ {
+		go func() {
+			CreateRandomUser(d, d.Uuid)
+			userc <- i
+		}()
+
+	}
+
+	for i := 0; i < 30000; i++ {
+		<-userc
+		//fmt.Println(g)
 	}
 }
-func CreateRandomDatabase() Dataholder {
-	d := createRandomDataHolder()
-	d.AddRandomUserList()
+func (d *Dataholder) AddAllClassrooms() {
+	defer TimeTrack(time.Now(), "Classrooms")
 	for i := 0; i < len(d.Users); i++ {
 		d.Users[i].AddRandomClassroomList(d)
 	}
+}
+func (d *Dataholder) AddAllQuestions() {
+	defer TimeTrack(time.Now(), "Questions")
 	for i := 0; i < len(d.Classrooms); i++ {
 		d.Classrooms[i].AddRandomQuestionList(d)
 	}
+}
+
+func CreateRandomDatabase() Dataholder {
+	d := createRandomDataHolder()
+	d.AddRandomUserList()
+	d.AddAllClassrooms()
+	d.AddAllQuestions()
 	return *d
 
 }

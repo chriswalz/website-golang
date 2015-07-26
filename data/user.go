@@ -31,6 +31,7 @@ func CreateRandomUser(d *Dataholder, parentId string) string {
 	return user.Uuid
 }
 func (user User) AddRandomClassroomList(d *Dataholder) {
+
 	for i := 0; i < 2; i++ {
 		user.Classrooms = append(user.Classrooms, CreateRandomClassroom(d, user.Uuid))
 	}

@@ -18,15 +18,11 @@ import (
 )
 
 func main() {
-	defer timeTrack(time.Now())
+	defer data.TimeTrack(time.Now(), "Main")
 	var d = data.CreateRandomDatabase()
 	d.PrintDataHolder()
 	//fmt.Println("Users:", d.Users)
 	//fmt.Println("Classrooms:", d.Classrooms)
 	fmt.Println("Questions length:", len(d.Questions))
 
-}
-
-func timeTrack(t time.Time) {
-	fmt.Println(time.Since(t))
 }
