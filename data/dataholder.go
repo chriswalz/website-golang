@@ -13,6 +13,7 @@ type Dataholder struct {
 	Users       []User
 	Classrooms  []Classroom
 	Questions   []Question
+	Sessions    []string
 	DateCreated time.Time
 }
 
@@ -28,6 +29,8 @@ func (d *Dataholder) AddClassroom(c Classroom) {
 func (d *Dataholder) AddQuestion(q Question) {
 	d.Questions = append(d.Questions, q)
 }
+
+// create save function and load function
 func createRandomDataHolder() *Dataholder {
 	rand.Seed(7)
 	d := Dataholder{}
