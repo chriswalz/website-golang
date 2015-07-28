@@ -14,21 +14,19 @@ Add persistent storage
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"regexp"
 	"time"
 
 	"github.com/website-golang/data"
-	"github.com/website-golang/file"
 )
 
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method)
-	f, _ := file.Load("html/weeb.html")
-	fmt.Fprintf(w, string(f.Body), r.URL.Path[1:])
+	//fmt.Println(r.Method)
+	//f, _ := file.Load("html/index.html")
+	//fmt.Fprintf(w, string(f.Body), r.URL.Path[1:])
 }
 func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 	m := validPath.FindStringSubmatch(r.URL.Path)
@@ -40,8 +38,14 @@ func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 }
 func main() {
 	defer data.TimeTrack(time.Now(), "Main")
-	http.HandleFunc("/", Index)
+	//http.HandleFunc("/", Index)
+	http.Handle("/", http.FileServer(http.Dir("./html")))
 	http.ListenAndServe(":8080", nil)
+}
+func rest() {
+	// Middlewares: gzip, authbasic
+	// others: logging,
+	//rest.App
 }
 
 //defer data.TimeTrack(time.Now(), "Main")
