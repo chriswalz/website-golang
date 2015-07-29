@@ -12,35 +12,40 @@ var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 func Prepare() {
 	//http.HandleFunc("/", Index)
-	http.HandleFunc("/login", login)
-	http.HandleFunc("/signup", signup)
-	http.Handle("/", http.FileServer(http.Dir("./html")))
+	http.HandleFunc("/session/login", login)
+	http.HandleFunc("/session/signup", signup)
+	http.Handle("/", http.FileServer(http.Dir("./web")))
 	http.ListenAndServe(":8080", nil)
 }
 func signup(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //get request method
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("html/indexOld.html")
+		t, _ := template.ParseFiles("session/signup.html")
 		t.Execute(w, nil)
 	} else {
 		r.ParseForm()
-		// logic part of log in
 		fmt.Println("email:", r.Form["email"])
 		fmt.Println("username:", r.Form["username"])
 		fmt.Println("password:", r.Form["password"])
+		if data.isUnAvailable() {
+			fmt.Errorf("The current username is unavailable")
+		} else {
+			t, _ := template.ParseFiles("session/login.html")
+			t.Execute(w, nil)
+		}
+
 	}
 }
 func login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //get request method
 	if r.Method == "GET" {
-		t, _ := template.ParseFiles("html/indexOld.html")
+		t, err := template.ParseFiles("session/login.html")
+		fmt.Println("yooooo", err)
 		t.Execute(w, nil)
 	} else {
 		r.ParseForm()
-		// logic part of log in
 		fmt.Println("username:", r.Form["username"])
 		fmt.Println("password:", r.Form["password"])
-		http.Redirect(w, r, "html/indexOld.html", http.StatusFound)
 	}
 }
 func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
@@ -53,6 +58,6 @@ func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 }
 func index(w http.ResponseWriter, r *http.Request) {
 	//fmt.Println(r.Method)
-	//f, _ := file.Load("html/index.html")
+	//f, _ := file.Load("web/index.html")
 	//fmt.Fprintf(w, string(f.Body), r.URL.Path[1:])
 }

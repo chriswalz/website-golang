@@ -28,12 +28,3 @@ func rest() {
 	// others: logging,
 	//rest.App
 }
-
-//defer data.TimeTrack(time.Now(), "Main")
-/*
-	var d = data.CreateRandomDatabase()
-	d.PrintDataHolder()
-	//fmt.Println("Users:", d.Users)
-	//fmt.Println("Classrooms:", d.Classrooms)
-	fmt.Println("Questions length:", len(d.Questions))
-*/

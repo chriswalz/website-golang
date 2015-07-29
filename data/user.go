@@ -14,10 +14,28 @@ type User struct {
 	DateCreated                                            time.Time
 }
 
+func (this *User) isUnavailable(d *Dataholder) {
+	for i, user := range d.Users {
+		if user.UserName == this.UserName {
+			return true
+		}
+	}
+}
 func (user User) String() string {
 	return fmt.Sprintln("Name:", user.Uuid, "Email:", user.Email, "Date Created:", user.DateCreated)
 }
-
+func CreateUser(d *Dataholder, parentId, username, name, email string) string {
+	user := User{}
+	user.Uuid = uuid.New()
+	user.ParentId = parentId
+	user.UserName = username
+	user.Name = name
+	user.Email = email
+	user.DateCreated = time.Now()
+	// group can either be "student" or "teacher"
+	d.AddUser(user)
+	return user.Uuid
+}
 func CreateRandomUser(d *Dataholder, parentId string) string {
 	rand.Seed(5)
 	user := User{}

@@ -77,3 +77,11 @@ func CreateRandomDatabase() Dataholder {
 	return *d
 
 }
+
+/*
+	var d = data.CreateRandomDatabase()
+	d.PrintDataHolder()
+	//fmt.Println("Users:", d.Users)
+	//fmt.Println("Classrooms:", d.Classrooms)
+	fmt.Println("Questions length:", len(d.Questions))
+*/
