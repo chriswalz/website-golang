@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"regexp"
 	"text/template"
+	"time"
+
+	"github.com/website-golang/data"
 )
 
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
@@ -24,14 +27,21 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, nil)
 	} else {
 		r.ParseForm()
-		fmt.Println("email:", r.Form["email"])
-		fmt.Println("username:", r.Form["username"])
-		fmt.Println("password:", r.Form["password"])
-		if data.isUnAvailable() {
-			fmt.Errorf("The current username is unavailable")
+		em := string(r.Form["email"][0])
+		un := string(r.Form["username"][0])
+		pass := string(r.Form["password"][0])
+		//fmt.Println("email:", r.Form["email"])
+		//fmt.Println("username:", un)
+		//fmt.Println("password:", r.Form["password"])
+		if data.IsUnavailable(un) { // you shouldnt let extra emails
+			fmt.Errorf("The username or email is unavailable")
 		} else {
-			t, _ := template.ParseFiles("session/login.html")
-			t.Execute(w, nil)
+			user := data.CreateUser(data.Db, un, pass, "NoName", em)
+			data.Db.AddUser(user)
+			// call login method!!!
+			//data.AddSession(user)
+			//t, _ := template.ParseFiles("session/login.html")
+			//t.Execute(w, nil)
 		}
 
 	}
@@ -46,6 +56,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		fmt.Println("username:", r.Form["username"])
 		fmt.Println("password:", r.Form["password"])
+		expire := time.Now().Add(30 * time.Minute)
+		cookie := http.Cookie{"test", , "/", "", expire, expire.Format(time.UnixDate), 86400, true, true, "test=tcookie", []string{"test=tcookie"}}
+		w.AddCookie(&cookie)
 	}
 }
 func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {

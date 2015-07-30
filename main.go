@@ -10,6 +10,9 @@ Create tests, initialize a database
 Implement post, get, put actions
 Connect RestApi
 Add persistent storage
+create pointers to questions user owns, do equivalent for classrooms
+database should be an array of pointers
+need to remove invalid sessions after 30 minutes
 */
 
 import (
@@ -21,6 +24,7 @@ import (
 
 func main() {
 	defer data.TimeTrack(time.Now(), "Main")
+	data.CreateRandomDatabase()
 	handlers.Prepare()
 }
 func rest() {
