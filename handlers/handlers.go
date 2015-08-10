@@ -53,13 +53,16 @@ func login(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("yooooo", err)
 		t.Execute(w, nil)
 	} else {
-		r.ParseForm()
+		loginHelper(w, r)
+	}
+}
+func loginHelper(w http.ResponseWriter, r *http.Request){
+			r.ParseForm()
 		fmt.Println("username:", r.Form["username"])
 		fmt.Println("password:", r.Form["password"])
 		expire := time.Now().Add(30 * time.Minute)
 		cookie := http.Cookie{"test", , "/", "", expire, expire.Format(time.UnixDate), 86400, true, true, "test=tcookie", []string{"test=tcookie"}}
 		w.AddCookie(&cookie)
-	}
 }
 func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 	m := validPath.FindStringSubmatch(r.URL.Path)
